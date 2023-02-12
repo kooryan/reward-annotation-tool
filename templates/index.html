@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <title>FlaskBlog</title>
+</head>
+<body>
+    <h2>reward Annotator</h2>
+    <button type="button" onclick="retrieveProject()">Send Project ID</button>
+    <button type="button" onclick="generateText()">Generate!</button>
+    <input type="text" id="projectID" name="projectID" placeholder="projectID" value="63dbf50ec6e8254235e3f8e8">
+
+    <input style="width: 500px;" id="player" type="range" min="0" max="100" step="1" value="0" onchange="updateTextInput(this.value);"/>
+    <input type="text" id="textInput" value="">
+
+    <div id="displayContent" class="displayContent" style="white-space: pre-line; width: 750px; border: 1px solid black;">
+        "Hello \n my name is ryan"
+    </div>
+
+    <script>
+        let serverURL;
+        serverURL = "http://127.0.0.1:5000/"
+
+        var content; 
+        let slider = document.getElementById("player");
+        let contentDisplay = document.getElementById("displayContent");
+
+        slider.addEventListener("input",event => {
+            var idx = event.target.value;
+            console.log(idx);
+            contentDisplay.textContent = content[idx][2];
+        })
+    
+        async function generateText() {
+            const response = await fetch('/create', {
+                method: 'GET',
+            });
+            const message = await response.json();
+            console.log(message); 
+            console.log(message[0][2]);
+            content = message;
+
+            console.log(message.length)
+            contentDisplay.textContent = content[0][2]
+            slider.max = message.length-1
+        }
+
+        async function retrieveProject() {
+            var text = document.getElementById("projectID").value;
+            const object = {projectID: text};
+            fetch(serverURL + "/create", {
+            mode: 'no-cors',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(object),
+                }, function (err, resp, body) {
+                    if (err) {
+                        console.log('Could not post writer actions.');
+                        console.log(err);
+                    }
+                }
+            );
+        }
+
+        function updateTextInput(val) {
+          document.getElementById('textInput').value = val; 
+        }
+
+    </script>
+</body>
+</html>

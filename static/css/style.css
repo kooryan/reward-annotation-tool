@@ -1,0 +1,13 @@
+h1 {
+    border: 2px #eee solid;
+    color: brown;
+    text-align: center;
+    padding: 10px;
+}
+
+div {
+  max-width: 250px;
+  margin: auto;
+  border: 3px solid black;
+}
+
