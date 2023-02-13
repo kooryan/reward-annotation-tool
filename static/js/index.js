@@ -1247,8 +1247,9 @@ diff_match_patch.prototype.diff_prettyHtml = function(diffs) {
   for (var x = 0; x < diffs.length; x++) {
     var op = diffs[x][0];    // Operation (insert, delete, equal)
     var data = diffs[x][1];  // Text of change.
-    var text = data.replace(pattern_amp, '&amp;').replace(pattern_lt, '&lt;')
-        .replace(pattern_gt, '&gt;').replace(pattern_para, '&para;<br>');
+    var text = data
+    // .replace(pattern_amp, '&amp;').replace(pattern_lt, '&lt;')
+        // .replace(pattern_gt, '&gt;').replace(pattern_para, '');
     switch (op) {
       case DIFF_INSERT:
         html[x] = '<ins style="background:#e6ffe6;">' + text + '</ins>';
@@ -2217,5 +2218,5 @@ diff_match_patch.patch_obj.prototype.toString = function() {
 // module.exports['DIFF_INSERT'] = DIFF_INSERT;
 // module.exports['DIFF_EQUAL'] = DIFF_EQUAL;
 
-export { diff_match_patch, DIFF_DELETE, DIFF_INSERT, DIFF_EQUAL }
-export default diff_match_patch
+// export { diff_match_patch, DIFF_DELETE, DIFF_INSERT, DIFF_EQUAL }
+// export default diff_match_patch

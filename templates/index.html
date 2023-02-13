@@ -25,17 +25,22 @@
     <button type="button" onclick="incrementSlider()">Next</button>
     <input type="text" id="textInput" value="0">
 
-
     <div id="displayContent" class="displayContent" style="white-space: pre-line; width: 750px; border: 1px solid black;">
-        "Hello \n my name is ryan"
+        "The beginning of edits"
     </div>
 
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
     <input type="text" id="startingAnnotation" placeholder="Beg Index" style="width: 75px;">
     <input type="text" id="endingAnnotation" placeholder="End index" style="width: 75px;">
     <input type="text" id="labelAnnotation" placeholder="Label" style="width: 200px;">
     <button type="button" onclick="">Annotate</button>
+
+    <br>
+    <br>
+
+    <button type="button" onclick="">Generate JSON</button>
     
 </body>
 </html>

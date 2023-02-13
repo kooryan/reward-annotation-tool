@@ -6,7 +6,6 @@ h1 {
 }
 
 div {
-  max-width: 250px;
+  max-width: 750px;
   margin: auto;
-  border: 3px solid black;
 }

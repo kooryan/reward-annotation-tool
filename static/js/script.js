@@ -1,9 +1,25 @@
+var dmp = diff_match_patch;
+
 let serverURL;
 serverURL = "http://127.0.0.1:5000/"
 
 var content; 
 let slider = document.getElementById("player");
 let contentDisplay = document.getElementById("displayContent");
+
+var prettyContent = [];
+
+function createPrettyDisplay() {
+    prettyContent.push(content[0][2]);
+    for(let i = 1; i < content.length; i++) {
+        diff = dmp.prototype.diff_main(content[i-1][2], content[i][2]);
+        prettydiff = dmp.prototype.diff_prettyHtml(diff);
+        prettyContent.push(prettydiff);
+    }
+
+    console.log(prettyContent)
+}
+
 
 function resetSlider() {
     slider.value = 0;
@@ -15,7 +31,8 @@ function decrementSlider() {
     document.getElementById('textInput').value = slider.value;
 
     var idx = slider.value;
-    contentDisplay.textContent = content[idx][2];
+    // contentDisplay.textContent = content[idx][2];
+    contentDisplay.innerHTML = prettyContent[idx]
 }
 
 function incrementSlider() {
@@ -23,13 +40,15 @@ function incrementSlider() {
     document.getElementById('textInput').value = slider.value;
 
     var idx = slider.value;
-    contentDisplay.textContent = content[idx][2];
+    // contentDisplay.textContent = content[idx][2];
+    contentDisplay.innerHTML = prettyContent[idx]
 }
 
 slider.addEventListener("input", event => {
     var idx = event.target.value;
     console.log(idx);
-    contentDisplay.textContent = content[idx][2];
+    // contentDisplay.textContent = content[idx][2];
+    contentDisplay.innerHTML = prettyContent[idx]
 })
 
 async function generateText() {
@@ -46,6 +65,7 @@ async function generateText() {
     slider.max = message.length-1;
 
     resetSlider();
+    createPrettyDisplay();
 }
 
 async function retrieveProject() {
@@ -70,4 +90,24 @@ async function retrieveProject() {
 
 function updateTextInput(val) {
     document.getElementById('textInput').value = val; 
+}
+
+var jsons = []
+
+function addAnnotation() {
+    // var object = new Object();
+    // object.beginnningIndex = startingIndex;
+    // object.endingIndex = endingIndex;
+    // object.label = label;
+    // object.beginningText = startingText;
+    // object.endingText = endingText;
+    // object.changes = changes;
+    
+
+    // const jsonObject = JSON.stringify(object);
+    // jsons.push(jsonObject);
+}
+
+function generateJsonFile() {
+    
 }
