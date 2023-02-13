@@ -7,12 +7,24 @@
 </head>
 <body>
     <h2>reward Annotator</h2>
+    <h3>Instructions</h3>
+    <p>
+        1) Enter a project ID or leave it blank (defaulted to Zae's project) <br>
+        2) Press "Send Project ID" <br>
+        3) Press "Generate" after a couple of seconds and see the project <br>
+        4) You can discretely move the slider by either clicking on the circle and using right/left arrow on keyboard or pressing the Next/Prev button
+    </p>
+
+
     <button type="button" onclick="retrieveProject()">Send Project ID</button>
     <button type="button" onclick="generateText()">Generate!</button>
     <input type="text" id="projectID" name="projectID" placeholder="projectID" value="63dbf50ec6e8254235e3f8e8">
-
+    <br>
     <input style="width: 500px;" id="player" type="range" min="0" max="100" step="1" value="0" onchange="updateTextInput(this.value);"/>
-    <input type="text" id="textInput" value="">
+    <button type="button" onclick="decrementSlider()">Prev</button>
+    <button type="button" onclick="incrementSlider()">Next</button>
+    <input type="text" id="textInput" value="0">
+
 
     <div id="displayContent" class="displayContent" style="white-space: pre-line; width: 750px; border: 1px solid black;">
         "Hello \n my name is ryan"
@@ -26,7 +38,28 @@
         let slider = document.getElementById("player");
         let contentDisplay = document.getElementById("displayContent");
 
-        slider.addEventListener("input",event => {
+        function resetSlider() {
+            slider.value = 0;
+            document.getElementById('textInput').value = slider.value;
+        }
+
+        function decrementSlider() {
+            slider.value--;
+            document.getElementById('textInput').value = slider.value;
+
+            var idx = slider.value;
+            contentDisplay.textContent = content[idx][2];
+        }
+
+        function incrementSlider() {
+            slider.value++;
+            document.getElementById('textInput').value = slider.value;
+
+            var idx = slider.value;
+            contentDisplay.textContent = content[idx][2];
+        }
+
+        slider.addEventListener("input", event => {
             var idx = event.target.value;
             console.log(idx);
             contentDisplay.textContent = content[idx][2];
@@ -41,9 +74,11 @@
             console.log(message[0][2]);
             content = message;
 
-            console.log(message.length)
-            contentDisplay.textContent = content[0][2]
-            slider.max = message.length-1
+            console.log(message.length);
+            contentDisplay.textContent = content[0][2];
+            slider.max = message.length-1;
+
+            resetSlider();
         }
 
         async function retrieveProject() {
@@ -69,7 +104,12 @@
         function updateTextInput(val) {
           document.getElementById('textInput').value = val; 
         }
-
     </script>
+
+    <input type="text" id="startingAnnotation" placeholder="Beg Index" style="width: 75px;">
+    <input type="text" id="endingAnnotation" placeholder="End index" style="width: 75px;">
+    <input type="text" id="labelAnnotation" placeholder="Label" style="width: 200px;">
+    <button type="button" onclick="">Annotate</button>
+    
 </body>
 </html>
