@@ -95,19 +95,39 @@ function updateTextInput(val) {
 var jsons = []
 
 function addAnnotation() {
-    // var object = new Object();
-    // object.beginnningIndex = startingIndex;
-    // object.endingIndex = endingIndex;
-    // object.label = label;
-    // object.beginningText = startingText;
-    // object.endingText = endingText;
-    // object.changes = changes;
-    
+     var startingIndex = document.getElementById("startingAnnotation").value;
+     var endingIndex = document.getElementById("endingAnnotation").value;
+     var label = document.getElementById("labelAnnotation").value
+     console.log("start");
+     console.log(startingIndex);
+     console.log(endingIndex);
+     console.log(label);
+     console.log("end");
+     var object = new Object();
+     object.beginnningIndex = startingIndex;
+     object.endingIndex = endingIndex;
+     object.label = label;
+     object.beginningText = content[startingIndex][2];
+     object.endingText = content[endingIndex][2];
+     document.getElementById("startingAnnotation").value = "";
+     document.getElementById("endingAnnotation").value = "";
+     document.getElementById("labelAnnotation").value = "";
 
-    // const jsonObject = JSON.stringify(object);
-    // jsons.push(jsonObject);
+     jsons.push(object);
 }
 
 function generateJsonFile() {
-    
+    var jsonstring = JSON.stringify(jsons);
+    console.log(jsonstring);
+    var filename = "annotation.json";
+
+    var file = document.createElement("a");
+    file.setAttribute('href',
+                'data:application/json;charset=utf-8, '
+                + encodeURIComponent(jsonstring))
+    file.setAttribute('download', filename);
+    document.body.appendChild(file);
+    console.log(file)
+    file.click();
+    document.body.removeChild(file);
 }
