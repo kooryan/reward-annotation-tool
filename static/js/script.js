@@ -17,7 +17,7 @@ function createPrettyDisplay() {
         prettyContent.push(prettydiff);
     }
 
-    console.log(prettyContent)
+    console.log(prettyContent);
 }
 
 
@@ -46,7 +46,6 @@ function incrementSlider() {
 
 slider.addEventListener("input", event => {
     var idx = event.target.value;
-    console.log(idx);
     // contentDisplay.textContent = content[idx][2];
     contentDisplay.innerHTML = prettyContent[idx]
 })
@@ -109,6 +108,14 @@ function addAnnotation() {
      object.label = label;
      object.beginningText = content[startingIndex][2];
      object.endingText = content[endingIndex][2];
+     object.startingTime = content[startingIndex][1];
+     object.endingTime = content[endingIndex][1];
+    //  var changes = [content[startingIndex][3]];
+    //  for(let i = startingIndex+1; i <= endingIndex; i++) {
+    //     changes.push(content[i][3]);
+    //     console.log(changes);
+    //  }
+    //  object.actionSequence = changes;
      document.getElementById("startingAnnotation").value = "";
      document.getElementById("endingAnnotation").value = "";
      document.getElementById("labelAnnotation").value = "";

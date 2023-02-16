@@ -85,14 +85,24 @@ def generate(projectID="63dbf50ec6e8254235e3f8e8"):
         temp = collection.find(each)
         original = ""
         for doc in temp:
+            change = []
+            if doc['state'] == 0 or doc['state'] == 4:
+                change.append(doc['changes'])
+            elif doc['state'] == 1:
+                change.append(doc['changes'])
+            elif doc['state'] == 2:
+                change.append(doc['copy'])
+            elif doc['state'] == 3:
+                change.append(doc['changes'])
+                change.append(doc['paste'])
             if i == 0:
                 for part in doc["revision"]:
                     if part[0] == 0 or part[0] == -1:
                         original = original + part[1]
                 text = original
-                revisions.append([doc["timestamp"][4:-33], doc["timestamp"][4:-33], doc["text"]])
+                revisions.append([doc["timestamp"][4:-33], doc["timestamp"][4:-33], doc["text"], change]) 
             else:
-                revisions.append([doc["timestamp"][4:-33], doc["timestamp"][4:-33], doc["text"]])
+                revisions.append([doc["timestamp"][4:-33], doc["timestamp"][4:-33], doc["text"], change])
             i += 1
         revisions = sorttime(revisions)
     return revisions
