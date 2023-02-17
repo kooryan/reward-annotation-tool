@@ -17,7 +17,7 @@ function createPrettyDisplay() {
         prettyContent.push(prettydiff);
     }
 
-    console.log(prettyContent);
+    // console.log(prettyContent);
 }
 
 
@@ -55,8 +55,8 @@ async function generateText() {
         method: 'GET',
     });
     const message = await response.json();
-    console.log(message); 
-    console.log(message[0][2]);
+    // console.log(message); 
+    // console.log(message[0][2]);
     content = message;
 
     console.log(message.length);
@@ -97,6 +97,10 @@ function addAnnotation() {
      var startingIndex = document.getElementById("startingAnnotation").value;
      var endingIndex = document.getElementById("endingAnnotation").value;
      var label = document.getElementById("labelAnnotation").value
+
+     startingIndex = parseInt(startingIndex);
+     endingIndex = parseInt(endingIndex);
+
      console.log("start");
      console.log(startingIndex);
      console.log(endingIndex);
@@ -110,12 +114,11 @@ function addAnnotation() {
      object.endingText = content[endingIndex][2];
      object.startingTime = content[startingIndex][1];
      object.endingTime = content[endingIndex][1];
-    //  var changes = [content[startingIndex][3]];
-    //  for(let i = startingIndex+1; i <= endingIndex; i++) {
-    //     changes.push(content[i][3]);
-    //     console.log(changes);
-    //  }
-    //  object.actionSequence = changes;
+     var changes = [];
+     for(let i = startingIndex; i <= endingIndex; i++) {
+        changes.push(content[i][3])
+     }
+     object.actionSequence = changes;
      document.getElementById("startingAnnotation").value = "";
      document.getElementById("endingAnnotation").value = "";
      document.getElementById("labelAnnotation").value = "";

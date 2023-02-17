@@ -1,10 +1,7 @@
 from flask import Flask, render_template
-import imageio
-from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import pymongo
 from datetime import datetime
-import textwrap
 
 from flask import request
 from flask import jsonify
@@ -40,27 +37,6 @@ def sorttime(rev):
     #     print(rev[i])
     return rev
 
-# def imageNoHighlight(time, total):
-#     temp = total.splitlines(keepends=True)
-#     font = ImageFont.truetype("arial.ttf", 16)
-#     image_size = (630, 908)
-#     image = Image.new("RGB", image_size, (255, 255, 255))
-#     draw = ImageDraw.Draw(image)
-#     y_text = 18
-#     width = 90
-#     wraped = []
-#     # might still need textwrap
-#     for each in temp:
-#         wraped.extend(
-#             textwrap.wrap(each, width=width, replace_whitespace=False, break_long_words=False, drop_whitespace=False))
-#     for line in wraped:
-#         draw.text((10, y_text), line, font=font, fill=(0, 0, 0))
-#         y_text += 18
-#     draw.text((450, 3), time, font=font, fill=(0, 0, 0))
-#     # return np.asarray(image)
-#     return wraped
-
-
 def generate(projectID="63dbf50ec6e8254235e3f8e8"):
     conntention_string = 'mongodb://rewarddb:YLpPh8bP5zVDvq2dwm614bta4OXYNi0g9vcMg0FEu1lZwBIT5rSze7LUOdZXh34UGYqGf8jn8cKAACDbm8zvKA==@rewarddb.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@rewarddb@'
     DB_NAME = "flaskdb"
@@ -86,15 +62,20 @@ def generate(projectID="63dbf50ec6e8254235e3f8e8"):
         original = ""
         for doc in temp:
             change = []
-            if doc['state'] == 0 or doc['state'] == 4:
-                change.append(doc['changes'])
-            elif doc['state'] == 1:
-                change.append(doc['changes'])
-            elif doc['state'] == 2:
-                change.append(doc['copy'])
-            elif doc['state'] == 3:
-                change.append(doc['changes'])
-                change.append(doc['paste'])
+            print(doc)
+            if doc["state"] == 0 or doc["state"] == 4:
+                change.append('add/delete/modify')
+                change.append(doc["changes"])
+            elif doc["state"] == 1:
+                change.append('cut')
+                change.append(doc["cut"])
+            elif doc["state"] == 2:
+                change.append('copy')
+                change.append(doc["copy"])
+            elif doc["state"] == 3:
+                change.append('paste')
+                change.append(doc["changes"])
+                change.append(doc["paste"])
             if i == 0:
                 for part in doc["revision"]:
                     if part[0] == 0 or part[0] == -1:
