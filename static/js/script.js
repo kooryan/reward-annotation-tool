@@ -10,6 +10,7 @@ let contentDisplay = document.getElementById("displayContent");
 var prettyContent = [];
 
 function createPrettyDisplay() {
+    prettyContent = [];
     prettyContent.push(content[0][2]);
     for(let i = 1; i < content.length; i++) {
         diff = dmp.prototype.diff_main(content[i-1][2], content[i][2]);
